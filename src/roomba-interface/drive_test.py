@@ -6,23 +6,16 @@ import rospy
 
 PORT = "/dev/ttyS0"
 
-class RoombaDrive:
-    def __init__(self):
-        self.roomba = PyRoombaAdapter(PORT)
-        self.cmdSub = rospy.Subscriber("/joy", Joy, self.getCmd)
+def cmdCallback(cmd):
+    print(cmd)
 
-    def getCmd(self, cmd):
-        print(cmd)
+def init():
+    cmdSub = rospy.Subscriber('/joy', Joy, cmdCallback)
+    rospy.init_node('roomba_interface')
+    rospy.spin()
 
 if __name__ == '__main__':
-    rospy.init_node("roomba_interface")
-    interface = RoombaDrive()
-    while True:
-        try:
-            rospy.spin()
-        except KeyboardInterrupt:
-            exit()
-            
+    init()
             
 
     
