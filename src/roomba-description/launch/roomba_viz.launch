@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find ca_description)/urdf/create_2.urdf.xacro'" />
+  <arg name="model" default="$(find roomba-description)/urdf/roomba.urdf" />
+  <param name="robot_description" textfile="$(arg model)" />
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" output="screen" />
 </launch>
