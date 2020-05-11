@@ -13,7 +13,7 @@
     <visual>
       <origin xyz="0 0 0.02" rpy="3.14159 0 1.57"/>
       <geometry>
-        <mesh filename="package://roomba-description/meshes/roomba.dae" />
+        <mesh filename="package://roomba_description/meshes/roomba.dae" />
       </geometry>
     </visual>
     <inertial>
