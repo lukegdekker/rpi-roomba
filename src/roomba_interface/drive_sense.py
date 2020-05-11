@@ -5,6 +5,7 @@ import rospy
 from std_msgs.msg import Header
 from sensor_msgs.msg import Range
 from geometry_msgs.msg import Twist
+from std_msgs.msg import Int64
 
 WHEEL_BASE = 235 #[mm]
 PORT = "/dev/ttyUSB0"
@@ -30,6 +31,8 @@ class DriveSense:
         self.lbcrPub = rospy.Publisher("/lbcrRange", Range, queue_size=1)
         self.lbfrPub = rospy.Publisher("/lbfrRange", Range, queue_size=1)
         self.lbrPub = rospy.Publisher("/lbrRange", Range, queue_size=1)
+        self.leftTickPub = rospy.Publisher("/left_ticks", Int64, queue_size=1)
+        self.rightTickPub = rospy.Publisher("/right_ticks", Int64, queue_size=1)
 
     def driveCmd(self, cmd):
         # Get desired linear/angular speeds
@@ -67,13 +70,15 @@ class DriveSense:
             self.publishRangeData('lbl', 57, 58, 80, self.lblPub)
             self.publishRangeData('lbfl', 59, 60, 80, self.lbflPub)
             self.publishRangeData('lbcl', 61, 62, 80, self.lbclPub)
-            
+            self.publishEncoderData('left_ticks', 52, 53, 80, self.leftTickPub)
+            self.publishEncoderData('right_ticks', 54, 55, 80, self.rightTickPub)
+
             time.sleep(0.1)
 
     def publishRangeData(self, sensor, byte1, byte2, dataLength, publisher):
         if len(self.byte)==dataLength:
-            # Get range data (decimal) from data bytes
-            r = int.from_bytes(self.byte[byte1] + self.byte[byte2], "big", signed=False)
+            # Get data (decimal) from data bytes
+            raw = int.from_bytes(self.byte[byte1] + self.byte[byte2], "big", signed=False)
             # Populate ROS message
             h = Header()
             h.stamp = rospy.Time.now()
@@ -84,10 +89,24 @@ class DriveSense:
             rangeMsg.field_of_view = 0.3
             rangeMsg.min_range = 0.0
             rangeMsg.max_range = 0.2
-            rangeMsg.range = (float(700-r)/700.0)*0.2
+            rangeMsg.range = (float(700-raw)/700.0)*0.2
             
             # Publish data
             publisher.publish(rangeMsg)
+
+        else:
+            print("Data not formatted properly...")
+
+    def publishEncoderData(self, sensor, byte1, byte2, dataLength, publisher):
+        if len(self.byte)==dataLength:
+            # Get data (decimal) from data bytes
+            raw = int.from_bytes(self.byte[byte1] + self.byte[byte2], "big", signed=True)
+            # Populate ROS message
+            ticks = Int64()
+            ticks.data = raw
+            
+            # Publish data
+            publisher.publish(ticks)
 
         else:
             print("Data not formatted properly...")
