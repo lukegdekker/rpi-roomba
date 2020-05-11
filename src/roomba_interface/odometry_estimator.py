@@ -10,12 +10,13 @@ from nav_msgs.msg import Odometry
 import math
 
 WHEEL_BASE = 0.235 #[m]
+M_PER_TICK = 0.00014150956
 
 class odometryEstimator:
     def __init__(self):
         # Initialize ROS pub/subs
         self.leftTicksSub = rospy.Subscriber("/left_ticks", Int64, self.getLeftTicks)
-        self.rightTicksSub = rospy.Subscriber("/right_ticks", Twist, self.getRightTicks)
+        self.rightTicksSub = rospy.Subscriber("/right_ticks", Int64, self.getRightTicks)
         self.odomPub = rospy.Publisher("/odom", Odometry, queue_size=1)
         self.prevLeftTicks = 0
         self.prevRightTicks = 0
@@ -32,8 +33,8 @@ class odometryEstimator:
         self.rightTicks = msg.data
 
     def computeSpeed(self):
-        self.speedLeft = (1.0/0.05) * (self.leftTicks - self.prevLeftTicks) 
-        self.speedRight = (1.0/0.05) * (self.rightTicks - self.prevRightTicks)
+        self.speedLeft = (1.0/0.05) * (self.leftTicks - self.prevLeftTicks) * M_PER_TICK
+        self.speedRight = (1.0/0.05) * (self.rightTicks - self.prevRightTicks) * M_PER_TICK
         self.prevLeftTicks = self.leftTicks
         self.prevRightTicks = self.rightTicks
 
@@ -46,7 +47,12 @@ class odometryEstimator:
             self.x = self.x + 0.05*xdot
             self.y = self.y + 0.05*ydot
             self.theta = self.theta + 0.05*thetadot
-            print(self.x, self.y, self.theta)
+            print("========== X Coord ==============")
+            print(self.x)
+            print("========== Y Coord ==============")
+            print(self.y)
+            print("====== Theta Coord ==============")
+            print(self.theta)
             time.sleep(0.05)
 
 if __name__ == '__main__':
