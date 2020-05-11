@@ -65,15 +65,21 @@ class DriveSense:
             while self.ser.in_waiting:
                 # Read bytes
                 self.byte.append(self.ser.read())
-            
-            # Publish light sensor range data
-            self.publishRangeData('lbl', 57, 58, 80, self.lblPub)
-            self.publishRangeData('lbfl', 59, 60, 80, self.lbflPub)
-            self.publishRangeData('lbcl', 61, 62, 80, self.lbclPub)
-            self.publishEncoderData('left_ticks', 52, 53, 80, self.leftTickPub)
-            self.publishEncoderData('right_ticks', 54, 55, 80, self.rightTickPub)
-
+            self.publishData()
             time.sleep(0.1)
+
+    def publishData(self):
+        # Publish light sensor range data
+        self.publishRangeData('lbl', 57, 58, 80, self.lblPub)
+        self.publishRangeData('lbfl', 59, 60, 80, self.lbflPub)
+        self.publishRangeData('lbcl', 61, 62, 80, self.lbclPub)
+        self.publishRangeData('lbcr', 63, 64, 80, self.lbcrPub)
+        self.publishRangeData('lbfr', 65, 66, 80, self.lbfrPub)
+        self.publishRangeData('lbr', 67, 68, 80, self.lbrPub)
+
+        # Publish encoder data
+        self.publishEncoderData('left_ticks', 52, 53, 80, self.leftTickPub)
+        self.publishEncoderData('right_ticks', 54, 55, 80, self.rightTickPub)
 
     def publishRangeData(self, sensor, byte1, byte2, dataLength, publisher):
         if len(self.byte)==dataLength:
