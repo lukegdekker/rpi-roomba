@@ -19,6 +19,8 @@ class odometryEstimator:
         self.odomPub = rospy.Publisher("/odom", Odometry, queue_size=1)
         self.prevLeftTicks = 0
         self.prevRightTicks = 0
+        self.leftTicks = 0
+        self.rightTicks = 0
         self.x = 0.0
         self.y = 0.0 
         self.theta = 0.0
