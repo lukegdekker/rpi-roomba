@@ -48,35 +48,38 @@
   </link>
   <joint name="left_wheel_joint" type="continuous">
     <axis xyz="0 1 0" />
-    <origin xyz="0 -0.1175 0" rpy="1.5708 0 0"/>
+    <origin xyz="0 0.1175 0" rpy="1.5708 0 0"/>
     <parent link="base_link"/>
     <child link="left_wheel"/>
   </joint> 
 
-  <!-- RIGHT WHEEL
+  <!-- RIGHT WHEEL -->
   <link name="right_wheel">
-  <collision>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-    <cylinder radius="0.17425" length="0.09225"/>
-    </geometry>
-  </collision>
-  <visual>
-    <origin xyz="0 0 0" rpy="0 0 0"/>
-    <geometry>
-      <mesh filename="package://roomba_description/meshes/roomba.dae" />
-    </geometry>
-  </visual>
-  <inertial>
+    <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
-      <mass value="1"/>
-      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
-  </inertial>
-</link>
-<joint name="chassis_joint" type="fixed">
-  <axis xyz="0 1 0" />
-  <origin xyz="1.753 0 0" rpy="0 0 3.1415"/>
-  <parent link="base_link"/>
-  <child link="chassis"/>
-</joint>  -->
+      <geometry>
+    	  <cylinder radius="0.036" length="0.015"/>
+      </geometry>
+    </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.036" length="0.015"/>
+      </geometry>
+      <material name="Grey">
+       <color rgba="0.1 0.1 0.1 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
+  </link>
+  <joint name="right_wheel_joint" type="continuous">
+    <axis xyz="0 1 0" />
+    <origin xyz="0 -0.1175 0" rpy="1.5708 0 0"/>
+    <parent link="base_link"/>
+    <child link="right_wheel"/>
+  </joint> 
 </robot>
