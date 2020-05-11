@@ -37,7 +37,7 @@
         <cylinder radius="0.036" length="0.015"/>
       </geometry>
       <material name="Grey">
-       <color rgba="0.128 0.128 0.128 1.0"/>
+       <color rgba="0.1 0.1 0.1 1.0"/>
       </material>
     </visual>
     <inertial>
@@ -48,7 +48,7 @@
   </link>
   <joint name="left_wheel_joint" type="continuous">
     <axis xyz="0 1 0" />
-    <origin xyz="0 0 0" rpy="0 1.5708 0"/>
+    <origin xyz="0 -0.1175 0" rpy="1.5708 0 0"/>
     <parent link="base_link"/>
     <child link="left_wheel"/>
   </joint> 
