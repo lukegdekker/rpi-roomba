@@ -7,7 +7,7 @@
     <collision>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-    	<cylinder radius="0.17425" length="0.09225"/>
+    	  <cylinder radius="0.17425" length="0.09225"/>
       </geometry>
     </collision>
     <visual>
@@ -23,50 +23,57 @@
     </inertial>
   </link>
 
-  <!-- <link
-    name="chassis">
-    <inertial>
-      <origin
-        xyz="2.1 0 0.75"
-        rpy="0 0 0" />
-      <mass
-        value="7094" />
-      <inertia
-        ixx="5731.95"
-        ixy="0"
-        ixz="0"
-        iyy="10293"
-        iyz="0"
-        izz="10761" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="package://wc3_sim/meshes/wc3_eng_frame.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="1 1 0 1" />
-      </material>
-    </visual>
+  <!-- LEFT WHEEL -->
+  <link name="left_wheel">
     <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
+      <origin xyz="0 0 0" rpy="0 0 0"/>
       <geometry>
-        <mesh
-          filename="package://wc3_sim/meshes/wc3_eng_frame.STL" />
+    	  <cylinder radius="0.036" length="0.015"/>
       </geometry>
     </collision>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <cylinder radius="0.036" length="0.015"/>
+      </geometry>
+    </visual>
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="1"/>
+        <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+    </inertial>
   </link>
-  <joint name="chassis_joint" type="fixed">
+  <joint name="left_wheel_joint" type="continuous">
     <axis xyz="0 1 0" />
-    <origin xyz="1.753 0 0" rpy="0 0 3.1415"/>
+    <origin xyz="0 0 0" rpy="0 1.5708 0"/>
     <parent link="base_link"/>
-    <child link="chassis"/>
-  </joint>  -->
+    <child link="left_wheel"/>
+  </joint> 
+
+  <!-- RIGHT WHEEL
+  <link name="right_wheel">
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+    <cylinder radius="0.17425" length="0.09225"/>
+    </geometry>
+  </collision>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://roomba_description/meshes/roomba.dae" />
+    </geometry>
+  </visual>
+  <inertial>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <mass value="1"/>
+      <inertia ixx="100"  ixy="0"  ixz="0" iyy="100" iyz="0" izz="100" />
+  </inertial>
+</link>
+<joint name="chassis_joint" type="fixed">
+  <axis xyz="0 1 0" />
+  <origin xyz="1.753 0 0" rpy="0 0 3.1415"/>
+  <parent link="base_link"/>
+  <child link="chassis"/>
+</joint>  -->
 </robot>
