@@ -8,9 +8,10 @@ from geometry_msgs.msg import Twist
 from std_msgs.msg import Int64
 from nav_msgs.msg import Odometry
 import math
+from squaternion import Quaternion, euler2quat
 
 WHEEL_BASE = 0.235 #[m]
-M_PER_TICK = 0.00014150956
+M_PER_TICK = 0.000437
 
 class odometryEstimator:
     def __init__(self):
@@ -47,12 +48,22 @@ class odometryEstimator:
             self.x = self.x + 0.05*xdot
             self.y = self.y + 0.05*ydot
             self.theta = self.theta + 0.05*thetadot
-            print("========== X Coord ==============")
-            print(self.x)
-            print("========== Y Coord ==============")
-            print(self.y)
-            print("====== Theta Coord ==============")
-            print(self.theta)
+            
+            q = euler2quat(0.0, 0.0, self.theta)
+            odom = Odometry()
+            h = Header()
+            h.stamp = rospy.Time.now()
+            h.frame_id = 'base_link'
+            odom.header = h
+            odom.child_frame_id = 'base_link'
+            odom.pose.pose.position.x = self.x
+            odom.pose.pose.position.y = self.y
+            odom.pose.pose.orientation.x = q[1]
+            odom.pose.pose.orientation.y = q[2]
+            odom.pose.pose.orientation.z = q[3]
+            odom.pose.pose.orientation.w = q[0]
+
+            self.odomPub.publish(odom)
             time.sleep(0.05)
 
 if __name__ == '__main__':
