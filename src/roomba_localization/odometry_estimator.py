@@ -53,7 +53,7 @@ class odometryEstimator:
             odom = Odometry()
             h = Header()
             h.stamp = rospy.Time.now()
-            h.frame_id = 'base_link'
+            h.frame_id = 'odom'
             odom.header = h
             odom.child_frame_id = 'base_link'
             odom.pose.pose.position.x = self.x
